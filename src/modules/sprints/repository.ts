@@ -13,11 +13,14 @@ export function findAll(): Promise<RowSelect[]> {
   return db.selectFrom(TABLE).select(keys).execute();
 }
 
-export function findById(id: number): Promise<RowSelect | undefined> {
+export function findByField(
+  fieldName: 'id' | 'code',
+  value: number | string
+): Promise<RowSelect | undefined> {
   return db
     .selectFrom(TABLE)
     .select(keys)
-    .where('id', '=', id)
+    .where(fieldName, '=', value)
     .executeTakeFirst();
 }
 
@@ -30,7 +33,7 @@ export function update(
   partial: RowUpdate
 ): Promise<RowSelect | undefined> {
   if (Object.keys(partial).length === 0) {
-    return findById(id);
+    return findByField('id', id);
   }
 
   return db
