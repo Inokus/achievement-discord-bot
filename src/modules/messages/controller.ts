@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as messages from './repository';
@@ -8,6 +9,7 @@ import { jsonRoute } from '@/utils/middleware';
 import Conflict from '@/utils/errors/Conflict';
 import NotFound from '@/utils/errors/NotFound';
 import discordClient from '../discord';
+import giphyClient from '../giphy';
 
 const router = Router();
 
@@ -82,9 +84,22 @@ router
         templateId: template.id,
       });
 
-      discordClient.sendMessage(
-        `${user} has just completed ${sprint.title}!\n${template.content}`
-      );
+      let gifUrl;
+
+      try {
+        gifUrl = await giphyClient.getRandomGif('congratulations');
+      } catch {
+        console.error('Could not retrieve data from GIPHY.');
+      }
+
+      try {
+        discordClient.sendAccomplishment(
+          `${user} has just completed ${sprint.title}!\n${template.content}`,
+          gifUrl
+        );
+      } catch {
+        console.error('Could not send Discord message.');
+      }
 
       return messages.create(message);
     }, StatusCodes.CREATED)

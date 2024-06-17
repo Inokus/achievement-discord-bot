@@ -65,8 +65,18 @@ class DiscordClient {
     return user;
   }
 
-  public async sendMessage(message: string): Promise<void> {
-    this.channel?.send(message);
+  public async sendAccomplishment(
+    message: string,
+    gifUrl: string
+  ): Promise<void> {
+    if (gifUrl) {
+      this.channel?.send({
+        content: message,
+        files: [gifUrl],
+      });
+    } else {
+      this.channel?.send(message);
+    }
   }
 
   public onReady(callback: () => void): void {
