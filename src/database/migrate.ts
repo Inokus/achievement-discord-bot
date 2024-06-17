@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import 'dotenv/config';
 import * as path from 'node:path';
 import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';

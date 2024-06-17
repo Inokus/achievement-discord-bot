@@ -5,7 +5,9 @@ import { findByField as findSprintByField } from '../sprints/repository';
 import { findAll as findAllTemplates } from '../templates/repository';
 import * as schema from './schema';
 import { jsonRoute } from '@/utils/middleware';
+import Conflict from '@/utils/errors/Conflict';
 import NotFound from '@/utils/errors/NotFound';
+import discordClient from '../discord';
 
 const router = Router();
 
@@ -44,10 +46,25 @@ router
     jsonRoute(async (req) => {
       const body = schema.parseRequest(req.body);
 
+      const user = await discordClient.getUserByUsername(body.username);
+
+      if (!user) {
+        throw new NotFound('User not found.');
+      }
+
       const sprint = await findSprintByField('code', body.sprintCode);
 
       if (!sprint) {
         throw new NotFound('Sprint not found.');
+      }
+
+      const record = await messages.findByUsernameAndSprint(
+        body.username,
+        sprint.id
+      );
+
+      if (record) {
+        throw new Conflict('User has already finished this sprint.');
       }
 
       const templates = await findAllTemplates();
@@ -64,6 +81,10 @@ router
         sprintId: sprint.id,
         templateId: template.id,
       });
+
+      discordClient.sendMessage(
+        `${user} has just completed ${sprint.title}!\n${template.content}`
+      );
 
       return messages.create(message);
     }, StatusCodes.CREATED)

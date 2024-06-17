@@ -23,6 +23,18 @@ export function findAllByField(
     .execute();
 }
 
+export function findByUsernameAndSprint(
+  username: string,
+  sprintId: number
+): Promise<RowSelect | undefined> {
+  return db
+    .selectFrom(TABLE)
+    .select(keys)
+    .where('username', '=', username)
+    .where('sprintId', '=', sprintId)
+    .executeTakeFirst();
+}
+
 export function create(record: RowInsert): Promise<RowSelect | undefined> {
   return db.insertInto(TABLE).values(record).returning(keys).executeTakeFirst();
 }
