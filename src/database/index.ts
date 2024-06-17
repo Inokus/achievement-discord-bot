@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { CamelCasePlugin, Kysely, SqliteDialect } from 'kysely';
 import Database from 'better-sqlite3';
 import type { DB } from './types';
