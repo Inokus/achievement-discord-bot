@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Sprints } from '@/database';
 
 type Record = Sprints;
+
 const schema = z.object({
   id: z.coerce.number().int().positive(),
   code: z.string().length(6),

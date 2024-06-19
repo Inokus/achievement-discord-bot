@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-    "migrate:latest": "tsx src/database/migrate",
+    "migrate:latest": "tsx src/database/migrate/bin",
     "gen:migration": "tsx src/database/generateMigration",
     "gen:types": "kysely-codegen --camel-case --dialect sqlite --out-file src/database/types.ts && prettier --write src/database/types.ts",
     "test": "vitest"
@@ -31,6 +31,7 @@
     "kysely": "^0.27.3",
     "kysely-codegen": "^0.14.2",
     "prettier": "^3.0.3",
+    "supertest": "^7.0.0",
     "tsx": "^4.7.1",
     "typescript": "^5.4.3",
     "vitest": "^1.6.0"

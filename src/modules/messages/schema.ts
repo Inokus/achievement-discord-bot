@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Messages } from '@/database';
 
 type Record = Messages;
+
 const schema = z.object({
   id: z.coerce.number().int().positive(),
   username: z.string().min(2).max(32),

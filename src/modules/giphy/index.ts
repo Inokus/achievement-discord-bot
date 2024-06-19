@@ -36,3 +36,4 @@ class GiphyClient {
 const giphyClient = new GiphyClient();
 
 export default giphyClient;
+export type GiphyClientType = typeof giphyClient;

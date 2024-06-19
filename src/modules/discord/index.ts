@@ -46,13 +46,13 @@ class DiscordClient {
   private getChannelByName(
     channelName: string = 'accomplishments'
   ): TextChannel {
-    const channel = this.guild?.channels.cache.find(
+    const channel = this.guild!.channels.cache.find(
       (ch) => ch.name === channelName && ch.isTextBased()
     );
 
     if (!channel) {
       throw new Error(
-        "Discord bot couldn't find any channels with provided name."
+        "Discord bot couldn't find any text channels with provided name."
       );
     }
 
@@ -60,8 +60,8 @@ class DiscordClient {
   }
 
   public async getUserByUsername(username: string) {
-    const users = await this.guild?.members.fetch();
-    const user = users?.find((member) => member.user.username === username);
+    const users = await this.guild!.members.fetch();
+    const user = users.find((member) => member.user.username === username);
     return user;
   }
 
@@ -69,13 +69,13 @@ class DiscordClient {
     message: string,
     gifUrl: string
   ): Promise<void> {
-    if (gifUrl) {
-      this.channel?.send({
+    if (gifUrl !== '') {
+      this.channel!.send({
         content: message,
         files: [gifUrl],
       });
     } else {
-      this.channel?.send(message);
+      this.channel!.send(message);
     }
   }
 
@@ -87,3 +87,4 @@ class DiscordClient {
 const discordClient = new DiscordClient();
 
 export default discordClient;
+export type DiscordClientType = typeof discordClient;

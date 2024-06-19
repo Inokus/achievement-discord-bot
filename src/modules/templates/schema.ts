@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Templates } from '@/database';
 
 type Record = Templates;
+
 const schema = z.object({
   id: z.coerce.number().int().positive(),
   content: z.string().min(5).max(500),

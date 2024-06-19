@@ -1,61 +1,65 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import * as templates from './repository';
+import buildRepository from './repository';
 import * as schema from './schema';
 import { jsonRoute } from '@/utils/middleware';
 import NotFound from '@/utils/errors/NotFound';
+import { Database } from '@/database';
 
-const router = Router();
+export default (db: Database) => {
+  const templates = buildRepository(db);
+  const router = Router();
 
-router
-  .route('/')
-  .get(jsonRoute(templates.findAll))
-  .post(
-    jsonRoute(async (req) => {
-      const body = schema.parseInsertable(req.body);
+  router
+    .route('/')
+    .get(jsonRoute(templates.findAll))
+    .post(
+      jsonRoute(async (req) => {
+        const body = schema.parseInsertable(req.body);
 
-      return templates.create(body);
-    }, StatusCodes.CREATED)
-  );
+        return templates.create(body);
+      }, StatusCodes.CREATED)
+    );
 
-router
-  .route('/:id')
-  .get(
-    jsonRoute(async (req) => {
-      const id = schema.parseId(req.params.id);
-      const record = await templates.findById(id);
+  router
+    .route('/:id')
+    .get(
+      jsonRoute(async (req) => {
+        const id = schema.parseId(req.params.id);
+        const record = await templates.findById(id);
 
-      if (!record) {
-        throw new NotFound('Template not found.');
-      }
+        if (!record) {
+          throw new NotFound('Template not found.');
+        }
 
-      return record;
-    })
-  )
-  .patch(
-    jsonRoute(async (req) => {
-      const id = schema.parseId(req.params.id);
-      const bodyPatch = schema.parsePartial(req.body);
-      const record = await templates.update(id, bodyPatch);
+        return record;
+      })
+    )
+    .patch(
+      jsonRoute(async (req) => {
+        const id = schema.parseId(req.params.id);
+        const bodyPatch = schema.parsePartial(req.body);
+        const record = await templates.update(id, bodyPatch);
 
-      if (!record) {
-        throw new NotFound('Template not found.');
-      }
+        if (!record) {
+          throw new NotFound('Template not found.');
+        }
 
-      return record;
-    })
-  )
-  .delete(
-    jsonRoute(async (req) => {
-      const id = schema.parseId(req.params.id);
-      const record = await templates.remove(id);
+        return record;
+      })
+    )
+    .delete(
+      jsonRoute(async (req) => {
+        const id = schema.parseId(req.params.id);
+        const record = await templates.remove(id);
 
-      if (!record) {
-        throw new NotFound('Template not found.');
-      }
+        if (!record) {
+          throw new NotFound('Template not found.');
+        }
 
-      return record;
-    })
-  );
+        return record;
+      })
+    );
 
-export default router;
+  return router;
+};
