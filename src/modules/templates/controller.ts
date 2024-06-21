@@ -38,7 +38,7 @@ export default (db: Database) => {
     .patch(
       jsonRoute(async (req) => {
         const id = schema.parseId(req.params.id);
-        const bodyPatch = schema.parsePartial(req.body);
+        const bodyPatch = schema.parseUpdateable(req.body);
         const record = await templates.update(id, bodyPatch);
 
         if (!record) {

@@ -13,7 +13,8 @@
     "migrate:latest": "tsx src/database/migrate/bin",
     "gen:migration": "tsx src/database/generateMigration",
     "gen:types": "kysely-codegen --camel-case --dialect sqlite --out-file src/database/types.ts && prettier --write src/database/types.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -22,9 +23,12 @@
     "@tsconfig/node18": "^18.2.2",
     "@types/better-sqlite3": "^7.6.5",
     "@types/express": "^4.17.18",
+    "@types/lodash": "^4.17.5",
     "@types/node": "^20.8.2",
+    "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",

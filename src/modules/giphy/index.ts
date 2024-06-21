@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-class GiphyClient {
+type GiphyClientType = {
+  getRandomGif(keyword: string): Promise<any>;
+};
+
+class GiphyClient implements GiphyClientType {
   private apiKey: string;
 
   constructor() {
@@ -36,4 +40,4 @@ class GiphyClient {
 const giphyClient = new GiphyClient();
 
 export default giphyClient;
-export type GiphyClientType = typeof giphyClient;
+export { GiphyClientType };

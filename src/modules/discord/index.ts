@@ -1,6 +1,12 @@
 import { Client, GatewayIntentBits, Guild, TextChannel } from 'discord.js';
 
-class DiscordClient {
+type DiscordClientType = {
+  getUserByUsername(username: string): Promise<any>;
+  sendAccomplishment(message: string, gifUrl: string): Promise<void>;
+  onReady(callback: () => void): void;
+};
+
+class DiscordClient implements DiscordClientType {
   private client: Client;
 
   private guild: Guild | null = null;
@@ -87,4 +93,4 @@ class DiscordClient {
 const discordClient = new DiscordClient();
 
 export default discordClient;
-export type DiscordClientType = typeof discordClient;
+export { DiscordClientType };

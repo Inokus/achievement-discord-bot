@@ -22,7 +22,6 @@ const requestSchema = schema
 
 const insertable = schema.omit({
   id: true,
-  sprintCode: true,
   createdAt: true,
 });
 
