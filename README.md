@@ -9,7 +9,6 @@ This project implements a REST API with Discord bot integration for sending cele
 - Supports CRUD operations for managing congratulatory message templates and sprints
 - Uses Express.js, SQLite, Kysely, zod, Vitest, ESLint + Prettier, and TypeScript
 - Uses migrations for database schema changes
-- Requires GIPHY API key and Discord token stored in `.env` file (example provided as `.env.example`)
 
 ## API Endpoints
 
@@ -67,16 +66,9 @@ This project implements a REST API with Discord bot integration for sending cele
 1. Clone the repository.
 2. Install dependencies using `npm install`.
 3. Rename `example.env` to `.env` and fill in GIPHY API key and Discord token.
-4. Run migrations with `npm run migrate:latest`.
 
 ## Usage
 
 Discord bot needs to have `SERVER MEMBERS INTENT` and `MESSAGE CONTENT INTENT` options enabled in discord developers portal.
 
-Start the development server with `npm run dev`.
-If everything runs smoothly these messages should be logged in console:
-
-```
-Server is running at http://localhost:3000
-Discord client is ready.
-```
+Start the development server with `npm run dev` or production server with `npm start`.
